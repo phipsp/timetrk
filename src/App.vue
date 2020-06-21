@@ -1,18 +1,26 @@
 <template>
   <v-app>
-    <v-app-bar app color="#26a69a">
-      <v-toolbar-title>timetrk</v-toolbar-title>
+    <v-app-bar app color="primary" flat="true">
+      <div class="d-flex align-center">
+        <v-img alt="timetrk logo" contain src="./assets/logo.png" width="100" />
+      </div>
     </v-app-bar>
 
-    <v-content></v-content>
+    <v-main>
+      <v-layout col md4>
+        <project-list />
+      </v-layout>
+    </v-main>
   </v-app>
 </template>
 
 <script>
+import ProjectList from "./components/ProjectList.vue";
+
 export default {
   name: "App",
 
-  components: {},
+  components: { ProjectList },
 
   data: () => ({
     //
