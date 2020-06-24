@@ -1,11 +1,12 @@
 <template>
   <div>
     <v-text-field
-      v-model="activeProject"
+      v-model="activeProject.name"
       :counter="20"
       :rules="nameRules"
       label="Project Name"
       required
+      @submit="updateProjectName(activeProject.name)"
     ></v-text-field>
   </div>
 </template>
@@ -26,8 +27,13 @@ export default {
   },
   props: {
     activeProject: {
-      type: String,
-      default: ""
+      type: Object,
+      default: () => {}
+    }
+  },
+  methods: {
+    updateProjectName(newName) {
+      this.$emit("updateProjectName", newName);
     }
   }
 };

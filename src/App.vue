@@ -10,7 +10,7 @@
       <v-container>
         <v-row>
           <v-col md cols="4">
-            <project-list @newProjectSelected="newProjectSelected" />
+            <project-list @projectSelected="projectSelected" v-bind:projects="projects" />
           </v-col>
           <v-divider inset vertical />
           <v-col>
@@ -19,7 +19,10 @@
             </v-row>
             <v-divider />
             <v-row justify="center">
-              <project-view v-bind:activeProject="activeProject" />
+              <project-view
+                v-bind:activeProject="activeProject"
+                @updateProjectName="updateProjectName"
+              />
             </v-row>
           </v-col>
         </v-row>
@@ -38,12 +41,29 @@ export default {
   components: { ProjectList, ProjectView },
 
   data: () => ({
-    activeProject: "" // TODO: switch to object with name, done pomos, open pomos, etc..
+    activeProject: {}, // TODO: switch to object with name, done pomos, open pomos, etc..
+    projects: [
+      { name: "Unnamed Chat App", id: 1 },
+      { name: "timetrk", id: 2 },
+      { name: "MotionDetectorBot", id: 3 },
+      { name: "Whatever", id: 4 },
+      { name: "bla", id: 5 },
+      { name: "blub", id: 6 },
+      { name: "filler", id: 7 },
+      { name: "content", id: 8 },
+      { name: "stuff", id: 9 }
+    ]
   }),
   methods: {
-    newProjectSelected(newProject) {
-      console.log("message from list", newProject);
-      this.activeProject = newProject;
+    projectSelected(project) {
+      console.log("message from list", project);
+      this.activeProject = project;
+    },
+    updateProjectName(newProjectName) {
+      var index = this.projects.findIndex(
+        project => project.id == this.activeProject.id
+      );
+      this.projects[index].name = newProjectName;
     }
   }
 };
