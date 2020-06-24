@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" flat>
-      <div class="d-flex align-center">
+      <div class="align-center justify-center">
         <v-img alt="timetrk logo" contain src="./assets/logo.png" width="100" />
       </div>
     </v-app-bar>
@@ -10,16 +10,16 @@
       <v-container>
         <v-row>
           <v-col md cols="4">
-            <project-list />
+            <project-list @newProjectSelected="newProjectSelected" />
           </v-col>
           <v-divider inset vertical />
           <v-col>
             <v-row>
-              <v-img alt="pomo" contain src="./assets/pomo.png" height="300" />
+              <v-img alt="pomo" contain src="./assets/pomo.png" height="400" />
             </v-row>
             <v-divider />
             <v-row justify="center">
-              <project-view />
+              <project-view v-bind:activeProject="activeProject" />
             </v-row>
           </v-col>
         </v-row>
@@ -38,7 +38,13 @@ export default {
   components: { ProjectList, ProjectView },
 
   data: () => ({
-    //
-  })
+    activeProject: "" // TODO: switch to object with name, done pomos, open pomos, etc..
+  }),
+  methods: {
+    newProjectSelected(newProject) {
+      console.log("message from list", newProject);
+      this.activeProject = newProject;
+    }
+  }
 };
 </script>

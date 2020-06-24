@@ -2,7 +2,7 @@
   <div>
     <list-header />
     <v-divider />
-    <v-list two-line>
+    <v-list two-line style="max-height: 500px" class="overflow-y-auto">
       <v-list-item-group mandatory color="primary">
         <template v-for="(project, index) in projects">
           <v-list-item :key="project.name" @click="updateSelected(project.name)">
@@ -44,7 +44,7 @@ export default {
   methods: {
     updateSelected(project) {
       this.selectedProject = project;
-      console.log(this.selectedProject);
+      this.$emit("newProjectSelected", project);
     }
   }
 };

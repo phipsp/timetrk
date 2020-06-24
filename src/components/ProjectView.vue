@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-text-field
-      v-model="projectName"
-      :counter="15"
+      v-model="activeProject"
+      :counter="20"
       :rules="nameRules"
       label="Project Name"
       required
@@ -19,10 +19,16 @@ export default {
       nameRules: [
         v => !!v || "Project name is required",
         v =>
-          (v && v.length <= 15) ||
-          "Project name must be less than 15 characters"
+          (v && v.length <= 20) ||
+          "Project name must be less than 20 characters"
       ]
     };
+  },
+  props: {
+    activeProject: {
+      type: String,
+      default: ""
+    }
   }
 };
 </script>
