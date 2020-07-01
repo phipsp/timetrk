@@ -26,23 +26,7 @@ export default {
 };
 </script>
 
-<style scoped>
-button[data-setter] {
-  outline: none;
-  background: transparent;
-  border: none;
-  font-family: 'Roboto';
-  font-weight: 300;
-  font-size: 18px;
-  width: 25px;
-  height: 30px;
-  color: #f7958e;
-  cursor: pointer;
-}
-
-button[data-setter]:hover {
-  opacity: 0.5;
-}
+<style lang="scss" scoped>
 .controlls {
   position: relative;
   top: -215px;
@@ -53,7 +37,7 @@ button[data-setter]:hover {
   font-family: 'Roboto';
   font-weight: 100;
   font-size: 65px;
-  color: #f7958e;
+  color: $primary-color;
 }
 
 #pause {
@@ -74,7 +58,7 @@ button[data-setter]:hover {
   left: 16px;
   border-top: 15px solid transparent;
   border-bottom: 15px solid transparent;
-  border-left: 22px solid #f7958e;
+  border-left: 22px solid $primary-color;
 }
 
 .pause::after {
@@ -86,7 +70,7 @@ button[data-setter]:hover {
   height: 30px;
   background-color: transparent;
   border-radius: 1px;
-  border: 5px solid #f7958e;
+  border: 5px solid $primary-color;
   border-top: none;
   border-bottom: none;
 }
@@ -103,14 +87,14 @@ button[data-setter]:hover {
 
 .e-c-progress {
   fill: none;
-  stroke: #f7958e;
+  stroke: $primary-color;
   stroke-width: 4px;
   transition: stroke-dashoffset 0.7s;
 }
 
 .e-c-pointer {
   fill: #fff;
-  stroke: #f7958e;
+  stroke: $primary-color;
   stroke-width: 2px;
 }
 
