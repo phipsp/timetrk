@@ -7,6 +7,7 @@
       label="Project Name"
       required
       @submit="updateProjectName(activeProject.name)"
+      ref="form"
     ></v-text-field>
   </div>
 </template>
@@ -34,6 +35,9 @@ export default {
   methods: {
     updateProjectName(newName) {
       this.$emit("updateProjectName", newName);
+    },
+    focusForm: function() {
+      this.$refs.form.focus();
     }
   }
 };

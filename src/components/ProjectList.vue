@@ -1,11 +1,10 @@
 <template>
   <div>
-    <list-header />
-    <v-divider />
     <v-list two-line style="max-height: 500px" class="overflow-y-auto">
       <v-list-item-group mandatory color="primary">
         <template v-for="(project, index) in projects">
-          <v-list-item :key="project.name" @click="updateSelected(project)">
+          <v-list-item :key="project.id + 'A'" @click="updateSelected(project)">
+            <!-- TODO: Find better solution for key than + A -->
             <v-list-item-content>
               <v-list-item-title v-text="project.name"></v-list-item-title>
             </v-list-item-content>
@@ -18,7 +17,6 @@
 </template>
 
 <script>
-import ListHeader from "./ListHeader.vue";
 export default {
   name: "ProjectList",
 
@@ -26,9 +24,6 @@ export default {
     return {
       selectedProject: {}
     };
-  },
-  components: {
-    ListHeader
   },
   props: {
     projects: {

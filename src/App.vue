@@ -10,6 +10,8 @@
       <v-container>
         <v-row>
           <v-col md cols="4">
+            <list-header @createProject="createProject" />
+            <v-divider />
             <project-list @projectSelected="projectSelected" v-bind:projects="projects" />
           </v-col>
           <v-divider inset vertical />
@@ -22,6 +24,7 @@
               <project-view
                 v-bind:activeProject="activeProject"
                 @updateProjectName="updateProjectName"
+                ref="projectView"
               />
             </v-row>
           </v-col>
@@ -34,14 +37,14 @@
 <script>
 import ProjectList from "./components/ProjectList.vue";
 import ProjectView from "./components/ProjectView.vue";
+import ListHeader from "./components/ListHeader.vue";
 
 export default {
   name: "App",
 
-  components: { ProjectList, ProjectView },
+  components: { ProjectList, ProjectView, ListHeader },
 
   data: () => ({
-    activeProject: {}, // TODO: switch to object with name, done pomos, open pomos, etc..
     projects: [
       { name: "Unnamed Chat App", id: 1 },
       { name: "timetrk", id: 2 },
@@ -52,7 +55,8 @@ export default {
       { name: "filler", id: 7 },
       { name: "content", id: 8 },
       { name: "stuff", id: 9 }
-    ]
+    ],
+    activeProject: {}
   }),
   methods: {
     projectSelected(project) {
@@ -64,7 +68,17 @@ export default {
         project => project.id == this.activeProject.id
       );
       this.projects[index].name = newProjectName;
+    },
+    createProject() {
+      var newId = this.projects.length + 1;
+      var newProject = { name: "", id: newId };
+      this.projects.push(newProject);
+      this.activeProject = newProject;
+      this.$refs.projectView.focusForm();
     }
+  },
+  created() {
+    this.activeProject = this.projects[0];
   }
 };
 </script>

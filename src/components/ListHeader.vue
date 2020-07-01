@@ -5,9 +5,21 @@
         <h1>Projects</h1>
       </v-col>
       <v-col cols="3">
-        <v-btn fab small color="primary">
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              fab
+              small
+              color="primary"
+              v-bind="attrs"
+              v-on="on"
+              @click="$emit('createProject')"
+            >
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </template>
+          <span>Create New Project</span>
+        </v-tooltip>
       </v-col>
     </v-row>
   </div>
