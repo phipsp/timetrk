@@ -12,12 +12,16 @@
           <v-col md cols="4">
             <list-header @createProject="createProject" />
             <v-divider />
-            <project-list @projectSelected="projectSelected" v-bind:projects="projects" />
+            <project-list
+              @projectSelected="projectSelected"
+              v-bind:projects="projects"
+            />
           </v-col>
           <v-divider inset vertical />
           <v-col>
-            <v-row>
-              <v-img alt="pomo" contain src="./assets/pomo.png" height="300" />
+            <v-row justify="center">
+              <!-- <v-img alt="pomo" contain src="./assets/pomo.png" height="400" /> -->
+              <pomo-view />
             </v-row>
             <v-divider />
             <v-row justify="center">
@@ -36,35 +40,36 @@
 </template>
 
 <script>
-import ProjectList from "./components/ProjectList.vue";
-import ProjectView from "./components/ProjectView.vue";
-import ListHeader from "./components/ListHeader.vue";
-import Store from "./store.js";
+import ProjectList from './components/ProjectList.vue';
+import ProjectView from './components/ProjectView.vue';
+import ListHeader from './components/ListHeader.vue';
+import PomoView from './components/PomoView.vue';
+import Store from './store.js';
 
 const store = new Store({
-  fileName: "data",
+  fileName: 'data',
   defaultData: {
     projects: [
-      { name: "MyFirstProject", id: 1, pomos: { planned: 1, done: 0 } }
-    ]
-  }
+      { name: 'MyFirstProject', id: 1, pomos: { planned: 1, done: 0 } },
+    ],
+  },
 });
 
 export default {
-  name: "App",
+  name: 'App',
 
-  components: { ProjectList, ProjectView, ListHeader },
+  components: { ProjectList, ProjectView, ListHeader, PomoView },
 
   data: () => ({
     projects: [],
-    activeProject: {}
+    activeProject: {},
   }),
   computed: {
     activeProjectIndex() {
       return this.projects.findIndex(
-        project => project.id == this.activeProject.id
+        (project) => project.id == this.activeProject.id
       );
-    }
+    },
   },
   methods: {
     projectSelected(project) {
@@ -78,19 +83,19 @@ export default {
     },
     createProject() {
       var newId = this.projects.length + 1;
-      var newProject = { name: "", id: newId, pomos: { planned: 0, done: 0 } };
+      var newProject = { name: '', id: newId, pomos: { planned: 0, done: 0 } };
       this.projects.push(newProject);
       this.activeProject = newProject;
       this.$refs.projectView.focusForm();
-    }
+    },
   },
   created() {
-    require("electron").ipcRenderer.on("closing", () => {
+    require('electron').ipcRenderer.on('closing', () => {
       store.saveProjects(this.projects); //callback to save project data on window closing event of main process
     });
 
     this.projects = store.getProjects();
     this.activeProject = this.projects[0];
-  }
+  },
 };
 </script>
