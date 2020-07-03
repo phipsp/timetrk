@@ -39,6 +39,14 @@
 import ProjectList from "./components/ProjectList.vue";
 import ProjectView from "./components/ProjectView.vue";
 import ListHeader from "./components/ListHeader.vue";
+import Store from "./store.js";
+
+const store = new Store({
+  fileName: "testData",
+  defaultData: [
+    { name: "MyFirstProject", id: 1, pomos: { planned: 1, done: 0 } }
+  ]
+});
 
 export default {
   name: "App",
@@ -46,14 +54,7 @@ export default {
   components: { ProjectList, ProjectView, ListHeader },
 
   data: () => ({
-    projects: [
-      { name: "Unnamed Chat App", id: 1, pomos: { planned: 1, done: 2 } },
-      { name: "timetrk", id: 2, pomos: { planned: 4, done: 5 } },
-      { name: "MotionDetectorBot", id: 3, pomos: { planned: 35, done: 7 } },
-      { name: "Whatever", id: 4, pomos: { planned: 222, done: 2 } },
-      { name: "bla", id: 5, pomos: { planned: 6, done: 1 } },
-      { name: "blub", id: 6, pomos: { planned: 1, done: 3434 } }
-    ],
+    projects: [],
     activeProject: {}
   }),
   computed: {
@@ -83,6 +84,7 @@ export default {
     }
   },
   created() {
+    this.projects = store.getProjects();
     this.activeProject = this.projects[0];
   }
 };
