@@ -5,8 +5,13 @@
         <g transform="translate(110,110)">
           <circle r="100" class="e-c-base" />
           <g transform="rotate(-90)">
-            <circle r="100" class="e-c-progress" />
-            <g id="e-pointer">
+            <circle
+              r="100"
+              class="e-c-progress"
+              :stroke-dasharray="length"
+              :stroke-dashoffset="circleDashOffset"
+            />
+            <g id="e-pointer" :style="pointer">
               <circle cx="100" cy="0" r="8" class="e-c-pointer" />
             </g>
           </g>
@@ -14,15 +19,141 @@
       </svg>
     </div>
     <div class="controlls">
-      <div class="display-remain-time">00:30</div>
-      <button class="play" id="pause"></button>
+      <div class="display-remain-time">
+        {{ currentTime }}
+      </div>
+      <button
+        :class="playPauseObject"
+        id="pause"
+        @click="onButtonClick"
+      ></button>
+    </div>
+    <div>
+      <v-btn class="ma-2" text icon color="white" large>
+        <v-icon color="primary" large>mdi-cog</v-icon>
+      </v-btn>
     </div>
   </div>
 </template>
 
 <script>
+import { PomodoroTimer } from '../utils/timer';
 export default {
   name: 'PomoView',
+  data() {
+    return {
+      length: Math.PI * 2 * 100,
+      pointer: {
+        transform: `rotate(360deg)`,
+      },
+      running: false,
+      paused: false,
+      stopped: true,
+      intervalTimer: null,
+      timePassed: 0,
+      timeLimit: this.minutes * 60 + this.seconds,
+      timerId: 0,
+      min: this.minutes,
+      secs: this.seconds,
+    };
+  },
+  computed: {
+    playPauseObject() {
+      if (this.running) {
+        return { pause: true };
+      } else if (this.paused) {
+        return { play: true };
+      } else {
+        return { play: this.stopped };
+      }
+    },
+    currentTime() {
+      let minutes = this.min < 10 ? '0' + this.min : this.min;
+      let seconds = this.secs < 10 ? '0' + this.secs : this.secs;
+      return `${minutes}:${seconds}`;
+    },
+    timeLeft() {
+      return this.timeLimit - this.timePassed;
+    },
+    // Update the dashoffset value as time passes
+    circleDashOffset() {
+      if (this.timePassed === 0) {
+        return `${-this.length}`;
+      } else {
+        return `${-this.length - this.length * this.timeFraction}`;
+      }
+    },
+    timeFraction() {
+      // Divides time left by the defined time limit.
+      return this.timeLeft / this.timeLimit;
+    },
+  },
+  props: {
+    minutes: {
+      type: Number,
+      validator: (value) => {
+        return value >= 0 && value <= 60;
+      },
+      default: 25,
+    },
+    seconds: {
+      type: Number,
+      validator: (value) => {
+        return value >= 0 && value <= 59;
+      },
+      default: 0,
+    },
+  },
+  methods: {
+    run: function() {
+      this.running = true;
+      this.paused = false;
+      this.stopped = false;
+    },
+    pause: function() {
+      this.running = false;
+      this.paused = true;
+      this.stopped = false;
+    },
+    stop: function() {
+      this.running = false;
+      this.paused = false;
+      this.stopped = true;
+    },
+    onButtonClick: function() {
+      this.running ? this.pauseCountdown() : this.runCountdown();
+    },
+    runCountdown: function() {
+      if (this.stopped === true) {
+        this.min = this.minutes;
+        this.secs = this.seconds;
+      }
+
+      this.timerId = PomodoroTimer.startCountdown(
+        this.min,
+        this.secs,
+        this.updateComponentTime
+      );
+      this.run();
+    },
+    updateComponentTime: function(seconds) {
+      let time = PomodoroTimer.remainingTime(seconds);
+      this.min = Number(time.mm);
+      this.secs = Number(time.ss);
+      this.timePassed += 1;
+      this.pointer.transform = `rotate(${360 * this.timeFraction}deg)`;
+      if (time.running === false) {
+        this.min = this.minutes;
+        this.secs = this.seconds;
+        this.timePassed = 0;
+        this.stop();
+      }
+    },
+    pauseCountdown: function() {
+      PomodoroTimer.pauseCountdown(this.timerId);
+      this.pause();
+    },
+  },
 };
 </script>
 

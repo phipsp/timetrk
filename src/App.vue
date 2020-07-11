@@ -21,7 +21,7 @@
           <v-col>
             <v-row justify="center">
               <!-- <v-img alt="pomo" contain src="./assets/pomo.png" height="400" /> -->
-              <pomo-view />
+              <pomo-view v-bind:minutes="25" v-bind:seconds="0" />
             </v-row>
             <v-divider />
             <v-row justify="center">
