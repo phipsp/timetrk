@@ -21,7 +21,7 @@
           <v-col>
             <v-row justify="center">
               <!-- <v-img alt="pomo" contain src="./assets/pomo.png" height="400" /> -->
-              <pomo-view v-bind:minutes="25" v-bind:seconds="0" />
+              <pomo-view @update-done-pomos="updateDonePomos" />
             </v-row>
             <v-divider />
             <v-row justify="center">
@@ -80,6 +80,9 @@ export default {
     },
     updatePlannedPomos(plannedPomos) {
       this.projects[this.activeProjectIndex].pomos.planned = plannedPomos;
+    },
+    updateDonePomos() {
+      this.projects[this.activeProjectIndex].pomos.done++;
     },
     createProject() {
       var newId = this.projects.length + 1;
