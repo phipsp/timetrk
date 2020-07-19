@@ -45,11 +45,12 @@ export default {
       paused: false,
       stopped: true,
       intervalTimer: null,
-      timePassed: 0,
+      // this is -1 so that the offset of the seconds animation is correct
+      timePassed: -1,
       timeLimit: this.minutes * 60 + this.seconds,
       timerId: 0,
-      min: this.minutes,
-      secs: this.seconds,
+      mutableMinutes: this.minutes,
+      mutableSeconds: this.seconds,
     };
   },
   computed: {
@@ -63,8 +64,14 @@ export default {
       }
     },
     currentTime() {
-      let minutes = this.min < 10 ? '0' + this.min : this.min;
-      let seconds = this.secs < 10 ? '0' + this.secs : this.secs;
+      let minutes =
+        this.mutableMinutes < 10
+          ? '0' + this.mutableMinutes
+          : this.mutableMinutes;
+      let seconds =
+        this.mutableSeconds < 10
+          ? '0' + this.mutableSeconds
+          : this.mutableSeconds;
       return `${minutes}:${seconds}`;
     },
     timeLeft() {
@@ -72,7 +79,7 @@ export default {
     },
     // Update the dashoffset value as time passes
     circleDashOffset() {
-      if (this.timePassed === 0) {
+      if (this.timePassed < 1) {
         return `${-this.length}`;
       } else {
         return `${-this.length - this.length * this.timeFraction}`;
@@ -81,6 +88,14 @@ export default {
     timeFraction() {
       // Divides time left by the defined time limit.
       return this.timeLeft / this.timeLimit;
+    },
+  },
+  watch: {
+    minutes() {
+      this.mutableMinutes = this.minutes;
+    },
+    seconds() {
+      this.mutableSeconds = this.seconds;
     },
   },
   props: {
@@ -114,33 +129,32 @@ export default {
       this.running = false;
       this.paused = false;
       this.stopped = true;
+      this.$emit('on-timer-finished');
     },
     onButtonClick: function() {
       this.running ? this.pauseCountdown() : this.runCountdown();
     },
     runCountdown: function() {
       if (this.stopped === true) {
-        this.min = this.minutes;
-        this.secs = this.seconds;
+        this.mutableMinutes = this.minutes;
+        this.mutableSeconds = this.seconds;
       }
 
       this.timerId = PomodoroTimer.startCountdown(
-        this.min,
-        this.secs,
+        this.mutableMinutes,
+        this.mutableSeconds,
         this.updateComponentTime
       );
       this.run();
     },
     updateComponentTime: function(seconds) {
       let time = PomodoroTimer.remainingTime(seconds);
-      this.min = Number(time.mm);
-      this.secs = Number(time.ss);
+      this.mutableMinutes = Number(time.mm);
+      this.mutableSeconds = Number(time.ss);
       this.timePassed += 1;
       this.pointer.transform = `rotate(${360 * this.timeFraction}deg)`;
       if (time.running === false) {
-        this.min = this.minutes;
-        this.secs = this.seconds;
-        this.timePassed = 0;
+        this.timePassed = -1;
         this.stop();
       }
     },
