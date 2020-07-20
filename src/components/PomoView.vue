@@ -18,22 +18,28 @@
             large
             v-bind="attrs"
             v-on="on"
+            @click="options = true"
           >
             <v-icon color="primary" large>mdi-cog</v-icon>
           </v-btn>
         </template>
         <span>Options</span>
       </v-tooltip>
+      <v-dialog v-model="options" max-width="500px">
+        <PomoSettingsModal @on-cancel="cancel" @on-save="save" />
+      </v-dialog>
     </v-row>
   </v-container>
 </template>
 
 <script>
 import PomoTimer from './PomoTimer';
+import PomoSettingsModal from './PomoSettingsModal';
 export default {
   name: 'PomoView',
   components: {
     PomoTimer,
+    PomoSettingsModal,
   },
   data() {
     return {
@@ -46,6 +52,7 @@ export default {
       pomoCounter: 0,
       cycleCounter: 0,
       isBreakTimer: false,
+      options: false,
     };
   },
   methods: {
@@ -68,6 +75,13 @@ export default {
         this.minutes = this.shortBreakInMinutes;
         this.isBreakTimer = true;
       }
+    },
+    cancel() {
+      this.options = false;
+    },
+    save() {
+      // todo
+      this.options = false;
     },
   },
 };
