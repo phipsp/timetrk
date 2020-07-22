@@ -44,8 +44,8 @@ export default {
   data() {
     return {
       pomosPerCylce: 4,
-      pomoMinutesDefault: 25,
-      minutes: 1,
+      focusDurationInMinutes: 25,
+      minutes: 5,
       seconds: 0,
       shortBreakInMinutes: 5,
       longBreakInMinutes: 30,
@@ -66,7 +66,7 @@ export default {
         this.isBreakTimer = true;
         // 1 break is over -> focus time
       } else if (this.isBreakTimer) {
-        this.minutes = this.pomoMinutesDefault;
+        this.minutes = this.focusDurationInMinutes;
         this.isBreakTimer = false;
         // 1 normal pomo is done -> short break
       } else {
@@ -79,8 +79,12 @@ export default {
     cancel() {
       this.options = false;
     },
-    save() {
-      // todo
+    save(pomoSettings) {
+      this.pomosPerCylce = pomoSettings.pomosPerCylce;
+      this.focusDurationInMinutes = pomoSettings.focusDurationInMinutes;
+      this.minutes = pomoSettings.focusDurationInMinutes;
+      this.shortBreakInMinutes = pomoSettings.shortBreakInMinutes;
+      this.longBreakInMinutes = pomoSettings.longBreakInMinutes;
       this.options = false;
     },
   },
