@@ -47,7 +47,6 @@ export default {
       intervalTimer: null,
       // this is -1 so that the offset of the seconds animation is correct
       timePassed: -1,
-      timeLimit: this.minutes * 60 + this.seconds,
       timerId: 0,
       mutableMinutes: this.minutes,
       mutableSeconds: this.seconds,
@@ -73,6 +72,9 @@ export default {
           ? '0' + this.mutableSeconds
           : this.mutableSeconds;
       return `${minutes}:${seconds}`;
+    },
+    timeLimit() {
+      return this.minutes * 60 + this.seconds;
     },
     timeLeft() {
       return this.timeLimit - this.timePassed;
