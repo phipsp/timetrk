@@ -4,7 +4,10 @@
       <PomoTimer
         :minutes="minutes"
         :seconds="seconds"
+        :activeProject="activeProject"
         @on-timer-finished="onTimerFinished"
+        @on-timer-started="onTimerStarted"
+        @on-timer-cancelled="onTimerCancelled"
       />
     </v-row>
     <v-row justify="end" style="padding-right: 55px">
@@ -55,6 +58,12 @@ export default {
       options: false,
     };
   },
+  props: {
+    activeProject: {
+      type: Object,
+      default: () => {},
+    },
+  },
   methods: {
     onTimerFinished() {
       // 1 full cylce is done -> long break
@@ -75,6 +84,13 @@ export default {
         this.minutes = this.shortBreakInMinutes;
         this.isBreakTimer = true;
       }
+    },
+    onTimerStarted(timedProjectId) {
+      this.$emit('on-timer-started', timedProjectId);
+    },
+    onTimerCancelled() {
+      this.minutes = this.focusDurationInMinutes;
+      this.seconds = 0;
     },
     cancel() {
       this.options = false;

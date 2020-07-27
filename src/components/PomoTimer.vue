@@ -22,11 +22,15 @@
       <div class="display-remain-time">
         {{ currentTime }}
       </div>
-      <button
-        :class="playPauseObject"
-        id="pause"
-        @click="onButtonClick"
-      ></button>
+      <v-row justify="center">
+        <button
+          :class="playPauseObject"
+          id="pause"
+          @click="onPlayPause"
+        ></button>
+        <span class="slash">/</span>
+        <button id="stop" @click="onStop"></button>
+      </v-row>
     </div>
   </div>
 </template>
@@ -50,6 +54,7 @@ export default {
       timerId: 0,
       mutableMinutes: this.minutes,
       mutableSeconds: this.seconds,
+      timedProjectId: -1,
     };
   },
   computed: {
@@ -115,6 +120,10 @@ export default {
       },
       default: 0,
     },
+    activeProject: {
+      type: Object,
+      default: () => {},
+    },
   },
   methods: {
     run: function() {
@@ -127,19 +136,33 @@ export default {
       this.paused = true;
       this.stopped = false;
     },
-    stop: function() {
+    stop: function(cancelled) {
       this.running = false;
       this.paused = false;
       this.stopped = true;
-      this.$emit('on-timer-finished');
+      if (!cancelled) {
+        this.$emit('on-timer-finished');
+      } else {
+        this.$emit('on-timer-cancelled');
+      }
     },
-    onButtonClick: function() {
+    onPlayPause: function() {
       this.running ? this.pauseCountdown() : this.runCountdown();
     },
-    runCountdown: function() {
-      if (this.stopped === true) {
+    onStop: function() {
+      if (!this.stopped) {
+        PomodoroTimer.stopCountdown(this.timerId);
+        this.stop(true);
         this.mutableMinutes = this.minutes;
         this.mutableSeconds = this.seconds;
+        this.timePassed = -1;
+      }
+    },
+    runCountdown: function() {
+      if (this.stopped) {
+        this.mutableMinutes = this.minutes;
+        this.mutableSeconds = this.seconds;
+        this.timedProjectId = this.activeProject.id;
       }
 
       this.timerId = PomodoroTimer.startCountdown(
@@ -148,6 +171,7 @@ export default {
         this.updateComponentTime
       );
       this.run();
+      this.$emit('on-timer-started', this.timedProjectId);
     },
     updateComponentTime: function(seconds) {
       let time = PomodoroTimer.remainingTime(seconds);
@@ -157,7 +181,8 @@ export default {
       this.pointer.transform = `rotate(${360 * this.timeFraction}deg)`;
       if (time.running === false) {
         this.timePassed = -1;
-        this.stop();
+        this.timedProject = '';
+        this.stop(false);
       }
     },
     pauseCountdown: function() {
@@ -182,34 +207,47 @@ export default {
   color: $primary-color;
 }
 
+.slash {
+  width: 30px;
+  height: 30px;
+  color: $primary-color;
+  font-size: 35px;
+  padding-right: 10px;
+}
+
 #pause {
   outline: none;
   background: transparent;
   border: none;
   margin-top: 10px;
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   position: relative;
+}
+
+#stop {
+  outline: none;
+  margin-top: 10px;
+  position: relative;
+  align-self: center;
+  width: 25px;
+  height: 25px;
+  background-color: $primary-color;
 }
 
 .play::before {
   display: block;
   content: '';
-  position: absolute;
-  top: 8px;
-  left: 16px;
   border-top: 15px solid transparent;
   border-bottom: 15px solid transparent;
   border-left: 22px solid $primary-color;
 }
 
 .pause::after {
+  display: block;
   content: '';
-  position: absolute;
-  top: 8px;
-  left: 12px;
   width: 15px;
-  height: 30px;
+  height: 25px;
   background-color: transparent;
   border-radius: 1px;
   border: 5px solid $primary-color;
