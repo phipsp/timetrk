@@ -15,13 +15,18 @@
             <project-list
               @projectSelected="projectSelected"
               v-bind:projects="projects"
+              :timedProjectId="timedProjectId"
             />
           </v-col>
           <v-divider inset vertical />
           <v-col>
             <v-row justify="center">
               <!-- <v-img alt="pomo" contain src="./assets/pomo.png" height="400" /> -->
-              <pomo-view @update-done-pomos="updateDonePomos" />
+              <pomo-view
+                :activeProject="activeProject"
+                @update-done-pomos="updateDonePomos"
+                @on-timer-started="onTimerStarted"
+              />
             </v-row>
             <v-divider />
             <v-row justify="center">
@@ -63,6 +68,7 @@ export default {
   data: () => ({
     projects: [],
     activeProject: {},
+    timedProjectId: -1,
   }),
   computed: {
     activeProjectIndex() {
@@ -90,6 +96,9 @@ export default {
       this.projects.push(newProject);
       this.activeProject = newProject;
       this.$refs.projectView.focusForm();
+    },
+    onTimerStarted(timedProjectId) {
+      this.timedProjectId = timedProjectId;
     },
   },
   created() {
