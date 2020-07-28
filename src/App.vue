@@ -26,6 +26,8 @@
                 :activeProject="activeProject"
                 @update-done-pomos="updateDonePomos"
                 @on-timer-started="onTimerStarted"
+                @on-timer-finished="onTimerFinished"
+                @on-timer-cancelled="onTimerFinished"
               />
             </v-row>
             <v-divider />
@@ -99,6 +101,9 @@ export default {
     },
     onTimerStarted(timedProjectId) {
       this.timedProjectId = timedProjectId;
+    },
+    onTimerFinished() {
+      this.timedProjectId = -1;
     },
   },
   created() {

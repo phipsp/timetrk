@@ -66,6 +66,7 @@ export default {
   },
   methods: {
     onTimerFinished() {
+      this.$emit('on-timer-finished');
       // 1 full cylce is done -> long break
       if (this.pomoCounter >= 4) {
         this.$emit('update-done-pomos');
@@ -91,6 +92,7 @@ export default {
     onTimerCancelled() {
       this.minutes = this.focusDurationInMinutes;
       this.seconds = 0;
+      this.$emit('on-timer-cancelled');
     },
     cancel() {
       this.options = false;
