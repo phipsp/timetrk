@@ -153,15 +153,14 @@ export default {
       if (!this.stopped) {
         PomodoroTimer.stopCountdown(this.timerId);
         this.stop(true);
-        this.mutableMinutes = this.minutes;
-        this.mutableSeconds = this.seconds;
+        this.resetTime();
         this.timePassed = -1;
+        this.pointer.transform = `rotate(360deg)`;
       }
     },
     runCountdown: function() {
       if (this.stopped) {
-        this.mutableMinutes = this.minutes;
-        this.mutableSeconds = this.seconds;
+        this.resetTime();
         this.timedProjectId = this.activeProject.id;
       }
 
@@ -172,6 +171,10 @@ export default {
       );
       this.run();
       this.$emit('on-timer-started', this.timedProjectId);
+    },
+    pauseCountdown: function() {
+      PomodoroTimer.pauseCountdown(this.timerId);
+      this.pause();
     },
     updateComponentTime: function(seconds) {
       let time = PomodoroTimer.remainingTime(seconds);
@@ -185,9 +188,9 @@ export default {
         this.stop(false);
       }
     },
-    pauseCountdown: function() {
-      PomodoroTimer.pauseCountdown(this.timerId);
-      this.pause();
+    resetTime: function() {
+      this.mutableMinutes = this.minutes;
+      this.mutableSeconds = this.seconds;
     },
   },
 };
