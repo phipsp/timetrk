@@ -42,7 +42,7 @@ import ListHeader from "./components/ListHeader.vue";
 import Store from "./store.js";
 
 const store = new Store({
-  fileName: "testData",
+  fileName: "data",
   defaultData: [
     { name: "MyFirstProject", id: 1, pomos: { planned: 1, done: 0 } }
   ]
@@ -66,7 +66,6 @@ export default {
   },
   methods: {
     projectSelected(project) {
-      console.log("message from list", project);
       this.activeProject = project;
     },
     updateProjectName(newProjectName) {
@@ -84,7 +83,12 @@ export default {
     }
   },
   created() {
+    require("electron").ipcRenderer.on("closing", () => {
+      store.saveProjects(this.projects);
+    });
+
     this.projects = store.getProjects();
+    console.log(this.projects);
     this.activeProject = this.projects[0];
   }
 };
