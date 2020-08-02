@@ -26,7 +26,8 @@ function createWindow() {
             // See
             // nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration
             // for more info
-            nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
+            nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+            enableRemoteModule: true
         }
     })
 
@@ -40,9 +41,8 @@ function createWindow() {
         win.loadURL('app://./index.html')
     }
 
-    win.on('closed', () => {
-        win = null
-    })
+    win.on('closed', () => { win = null })
+    win.on('close', () => { win.webContents.send('closing') })
 }
 
 // Quit when all windows are closed.
