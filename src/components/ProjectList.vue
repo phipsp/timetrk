@@ -5,17 +5,19 @@
         <template v-for="(project, index) in projects">
           <v-list-item :key="project.id + 'A'" @click="updateSelected(project)">
             <!-- TODO: Find better solution for key than + A -->
-            <v-badge
-              color="green"
-              dot
-              inline
-              left
-              :value="timedProjectId === project.id"
-            >
-              <v-list-item-content>
-                <v-list-item-title> {{ project.name }}</v-list-item-title>
-              </v-list-item-content>
-            </v-badge>
+
+            <v-list-item-content>
+              <v-list-item-title> {{ project.name }}</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-badge
+                color="green"
+                dot
+                :value="timedProjectId === project.id"
+                label="Running Timer Badge"
+              >
+              </v-badge>
+            </v-list-item-action>
           </v-list-item>
           <v-divider
             v-if="index + 1 < projects.length"
