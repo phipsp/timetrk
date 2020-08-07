@@ -9,6 +9,7 @@
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               fab
+              elevation="0"
               small
               color="primary"
               v-bind="attrs"
@@ -27,9 +28,8 @@
 
 <script>
 export default {
-  name: "ListHeader"
+  name: 'ListHeader',
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
