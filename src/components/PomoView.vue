@@ -48,7 +48,7 @@ export default {
     return {
       pomosPerCylce: 4,
       focusDurationInMinutes: 25,
-      minutes: 5,
+      minutes: 25,
       seconds: 0,
       shortBreakInMinutes: 5,
       longBreakInMinutes: 30,
