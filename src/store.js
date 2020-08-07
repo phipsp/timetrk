@@ -4,9 +4,7 @@ import { join } from 'path';
 
 class Store {
     constructor(opts) {
-        this.path = join(
-            remote.app.getPath('userData'),
-            opts.fileName + '.json'); // TODO: Find a way to get path from electron
+        this.path = join(remote.app.getPath('userData'), opts.fileName + '.json');
         this.data = parseDataFile(this.path, opts.defaultData);
     }
 
@@ -17,7 +15,6 @@ class Store {
     saveProjects(data) {
         this.data.projects = data;
         writeFileSync(this.path, JSON.stringify(this.data));
-        console.log('Projects saved');
     }
 }
 
@@ -25,8 +22,8 @@ function parseDataFile(filePath, defaultData) {
     try {
         return JSON.parse(readFileSync(filePath));
     } catch (error) {
-        console.log('Couldnt open project data: ', filePath);
-        console.log('Using default data: ', defaultData)
+        console.warn('Couldnt open project data: ', filePath);
+        console.info('Using default data: ', defaultData)
         return defaultData;
     }
 }
