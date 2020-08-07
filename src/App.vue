@@ -43,9 +43,11 @@ import Store from "./store.js";
 
 const store = new Store({
   fileName: "data",
-  defaultData: [
-    { name: "MyFirstProject", id: 1, pomos: { planned: 1, done: 0 } }
-  ]
+  defaultData: {
+    projects: [
+      { name: "MyFirstProject", id: 1, pomos: { planned: 1, done: 0 } }
+    ]
+  }
 });
 
 export default {
@@ -84,7 +86,7 @@ export default {
   },
   created() {
     require("electron").ipcRenderer.on("closing", () => {
-      store.saveProjects(this.projects);
+      store.saveProjects(this.projects); //callback to save project data on window closing event of main process
     });
 
     this.projects = store.getProjects();

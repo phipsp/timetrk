@@ -26,6 +26,7 @@ function parseDataFile(filePath, defaultData) {
         return JSON.parse(readFileSync(filePath));
     } catch (error) {
         console.log('Couldnt open project data: ', filePath);
+        console.log('Using default data: ', defaultData)
         return defaultData;
     }
 }
