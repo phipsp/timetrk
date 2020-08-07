@@ -33,23 +33,27 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-progress-linear v-model="progress" height="10" rounded></v-progress-linear>
+      <v-progress-linear
+        v-model="progress"
+        height="10"
+        rounded
+      ></v-progress-linear>
     </v-row>
   </div>
 </template>
 
 <script>
 export default {
-  name: "ProjectView",
+  name: 'ProjectView',
   data() {
     return {
-      projectName: "",
+      projectName: '',
       nameRules: [
-        v => !!v || "Project name is required",
-        v =>
+        (v) => !!v || 'Project name is required',
+        (v) =>
           (v && v.length <= 20) ||
-          "Project name must be less than 20 characters"
-      ]
+          'Project name must be less than 20 characters',
+      ],
     };
   },
   computed: {
@@ -62,25 +66,25 @@ export default {
       } else {
         return 100;
       }
-    }
+    },
   },
   props: {
     activeProject: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   methods: {
     updateProjectName(newName) {
-      this.$emit("updateProjectName", newName);
+      this.$emit('update-project-name', newName);
     },
     updatePlannedPomos(plannedPomos) {
-      this.$emit("updatePlannedPomos", plannedPomos);
+      this.$emit('update-planned-pomos', plannedPomos);
     },
     focusForm: function() {
       this.$refs.form.focus();
-    }
-  }
+    },
+  },
 };
 </script>
 

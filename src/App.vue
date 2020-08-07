@@ -10,11 +10,11 @@
       <v-container>
         <v-row>
           <v-col md cols="4">
-            <list-header @createProject="createProject" />
+            <list-header @create-project="createProject" />
             <v-divider />
             <project-list
-              @projectSelected="projectSelected"
-              v-bind:projects="projects"
+              @project-selected="projectSelected"
+              :projects="projects"
               :timedProjectId="timedProjectId"
             />
           </v-col>
@@ -33,9 +33,9 @@
             <v-divider />
             <v-row justify="center">
               <project-view
-                v-bind:activeProject="activeProject"
-                @updateProjectName="updateProjectName"
-                @updatePlannedPomos="updatePlannedPomos"
+                :activeProject="activeProject"
+                @update-project-name="updateProjectName"
+                @update-planned-pomos="updatePlannedPomos"
                 ref="projectView"
               />
             </v-row>

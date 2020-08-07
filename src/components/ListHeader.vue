@@ -14,7 +14,7 @@
               color="primary"
               v-bind="attrs"
               v-on="on"
-              @click="$emit('createProject')"
+              @click="$emit('create-project')"
             >
               <v-icon>mdi-plus</v-icon>
             </v-btn>
