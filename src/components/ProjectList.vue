@@ -51,7 +51,7 @@ export default {
   methods: {
     updateSelected(project) {
       this.selectedProject = project;
-      this.$emit('projectSelected', project);
+      this.$emit('project-selected', project);
     },
   },
 };
