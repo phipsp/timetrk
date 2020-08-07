@@ -90,7 +90,6 @@ export default {
     });
 
     this.projects = store.getProjects();
-    console.log(this.projects);
     this.activeProject = this.projects[0];
   }
 };
