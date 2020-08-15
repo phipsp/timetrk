@@ -69,7 +69,7 @@ export default {
   data: () => ({
     projects: [],
     activeProject: {},
-    timedProjectId: -1,
+    timedProjectId: null,
   }),
   computed: {
     activeProjectIndex() {
@@ -102,7 +102,7 @@ export default {
       this.timedProjectId = timedProjectId;
     },
     onTimerFinished() {
-      this.timedProjectId = -1;
+      this.timedProjectId = null;
     },
   },
   created() {
