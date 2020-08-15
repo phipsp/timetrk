@@ -26,7 +26,7 @@
             <v-icon color="primary" large>mdi-cog</v-icon>
           </v-btn>
         </template>
-        <span>Options</span>
+        <span>Pomodoro Options</span>
       </v-tooltip>
       <v-dialog v-model="options" max-width="500px">
         <PomoSettingsModal @on-cancel="cancel" @on-save="save" />
