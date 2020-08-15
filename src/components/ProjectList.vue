@@ -7,7 +7,7 @@
             <!-- TODO: Find better solution for key than + A -->
 
             <v-list-item-content>
-              <v-list-item-title> {{ project.name }}</v-list-item-title>
+              <v-list-item-title>{{ project.name }}</v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
               <v-badge
@@ -15,14 +15,10 @@
                 dot
                 :value="timedProjectId === project.id"
                 label="Running Timer Badge"
-              >
-              </v-badge>
+              ></v-badge>
             </v-list-item-action>
           </v-list-item>
-          <v-divider
-            v-if="index + 1 < projects.length"
-            :key="index"
-          ></v-divider>
+          <v-divider v-if="index + 1 < projects.length" :key="index"></v-divider>
         </template>
       </v-list-item-group>
     </v-list>
@@ -31,7 +27,7 @@
 
 <script>
 export default {
-  name: 'ProjectList',
+  name: "ProjectList",
 
   data() {
     return {
@@ -45,13 +41,13 @@ export default {
     },
     timedProjectId: {
       type: Number,
-      default: () => -1,
+      default: () => null,
     },
   },
   methods: {
     updateSelected(project) {
       this.selectedProject = project;
-      this.$emit('project-selected', project);
+      this.$emit("project-selected", project);
     },
   },
 };
