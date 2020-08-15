@@ -36,7 +36,8 @@
 </template>
 
 <script>
-import { PomodoroTimer } from '../utils/timer';
+import { PomodoroTimer } from '../utils/PomodoroTimer';
+import { timerState } from '../utils/constants';
 export default {
   name: 'PomoTimer',
   data() {
@@ -45,26 +46,22 @@ export default {
       pointer: {
         transform: `rotate(360deg)`,
       },
-      running: false,
-      paused: false,
-      stopped: true,
+      currentState: timerState.STOPPED,
       intervalTimer: null,
       // this is -1 so that the offset of the seconds animation is correct
       timePassed: -1,
       timerId: 0,
       mutableMinutes: this.minutes,
       mutableSeconds: this.seconds,
-      timedProjectId: -1,
+      timedProjectId: null,
     };
   },
   computed: {
     playPauseObject() {
-      if (this.running) {
+      if (this.currentState === timerState.RUNNING) {
         return { pause: true };
-      } else if (this.paused) {
-        return { play: true };
       } else {
-        return { play: this.stopped };
+        return { play: true };
       }
     },
     currentTime() {
@@ -127,19 +124,13 @@ export default {
   },
   methods: {
     run: function() {
-      this.running = true;
-      this.paused = false;
-      this.stopped = false;
+      this.currentState = timerState.RUNNING;
     },
     pause: function() {
-      this.running = false;
-      this.paused = true;
-      this.stopped = false;
+      this.currentState = timerState.PAUSED;
     },
     stop: function(cancelled) {
-      this.running = false;
-      this.paused = false;
-      this.stopped = true;
+      this.currentState = timerState.STOPPED;
       if (!cancelled) {
         this.$emit('on-timer-finished');
       } else {
@@ -147,10 +138,12 @@ export default {
       }
     },
     onPlayPause: function() {
-      this.running ? this.pauseCountdown() : this.runCountdown();
+      this.currentState === timerState.RUNNING
+        ? this.pauseCountdown()
+        : this.runCountdown();
     },
     onStop: function() {
-      if (!this.stopped) {
+      if (!(this.currentState === timerState.STOPPED)) {
         PomodoroTimer.stopCountdown(this.timerId);
         this.stop(true);
         this.resetTime();
@@ -159,7 +152,7 @@ export default {
       }
     },
     runCountdown: function() {
-      if (this.stopped) {
+      if (this.currentState === timerState.STOPPED) {
         this.resetTime();
         this.timedProjectId = this.activeProject.id;
       }
@@ -184,7 +177,7 @@ export default {
       this.pointer.transform = `rotate(${360 * this.timeFraction}deg)`;
       if (time.running === false) {
         this.timePassed = -1;
-        this.timedProject = '';
+        this.timedProjectId = null;
         this.stop(false);
       }
     },
