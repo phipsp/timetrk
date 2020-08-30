@@ -1,6 +1,8 @@
 {
   "name": "timetrk",
   "version": "0.1.0",
+  "description": "A tool to keep track of projects and productively work on them using the Pomodoro technique.",
+  "author": "Philipp Sperber and Anja Klipic",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
