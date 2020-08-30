@@ -36,10 +36,10 @@
 </template>
 
 <script>
-import PomoTimer from './PomoTimer';
-import PomoSettingsModal from './PomoSettingsModal';
+import PomoTimer from "./PomoTimer";
+import PomoSettingsModal from "./PomoSettingsModal";
 export default {
-  name: 'PomoView',
+  name: "PomoView",
   components: {
     PomoTimer,
     PomoSettingsModal,
@@ -66,10 +66,10 @@ export default {
   },
   methods: {
     onTimerFinished() {
-      this.$emit('on-timer-finished');
+      this.$emit("on-timer-finished");
       // 1 full cylce is done -> long break
       if (this.pomoCounter >= 4) {
-        this.$emit('update-done-pomos');
+        this.$emit("update-done-pomos");
         this.cycleCounter++;
         this.pomoCounter = 0;
         this.minutes = this.longBreakInMinutes;
@@ -80,19 +80,19 @@ export default {
         this.isBreakTimer = false;
         // 1 normal pomo is done -> short break
       } else {
-        this.$emit('update-done-pomos');
+        this.$emit("update-done-pomos");
         this.pomoCounter++;
         this.minutes = this.shortBreakInMinutes;
         this.isBreakTimer = true;
       }
     },
     onTimerStarted(timedProjectId) {
-      this.$emit('on-timer-started', timedProjectId);
+      this.$emit("on-timer-started", timedProjectId);
     },
     onTimerCancelled() {
       this.minutes = this.focusDurationInMinutes;
       this.seconds = 0;
-      this.$emit('on-timer-cancelled');
+      this.$emit("on-timer-cancelled");
     },
     cancel() {
       this.options = false;
