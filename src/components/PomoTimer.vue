@@ -19,15 +19,9 @@
       </svg>
     </div>
     <div class="controlls">
-      <div class="display-remain-time">
-        {{ currentTime }}
-      </div>
+      <div class="display-remain-time">{{ currentTime }}</div>
       <v-row justify="center">
-        <button
-          :class="playPauseObject"
-          id="pause"
-          @click="onPlayPause"
-        ></button>
+        <button :class="playPauseObject" id="pause" @click="onPlayPause"></button>
         <span class="slash">/</span>
         <button id="stop" @click="onStop"></button>
       </v-row>
@@ -36,10 +30,10 @@
 </template>
 
 <script>
-import { PomodoroTimer } from '../utils/PomodoroTimer';
-import { timerState } from '../utils/constants';
+import { PomodoroTimer } from "../utils/PomodoroTimer";
+import { timerState } from "../utils/constants";
 export default {
-  name: 'PomoTimer',
+  name: "PomoTimer",
   data() {
     return {
       length: Math.PI * 2 * 100,
@@ -67,11 +61,11 @@ export default {
     currentTime() {
       let minutes =
         this.mutableMinutes < 10
-          ? '0' + this.mutableMinutes
+          ? "0" + this.mutableMinutes
           : this.mutableMinutes;
       let seconds =
         this.mutableSeconds < 10
-          ? '0' + this.mutableSeconds
+          ? "0" + this.mutableSeconds
           : this.mutableSeconds;
       return `${minutes}:${seconds}`;
     },
@@ -123,26 +117,26 @@ export default {
     },
   },
   methods: {
-    run: function() {
+    run: function () {
       this.currentState = timerState.RUNNING;
     },
-    pause: function() {
+    pause: function () {
       this.currentState = timerState.PAUSED;
     },
-    stop: function(cancelled) {
+    stop: function (cancelled) {
       this.currentState = timerState.STOPPED;
       if (!cancelled) {
-        this.$emit('on-timer-finished');
+        this.$emit("on-timer-finished");
       } else {
-        this.$emit('on-timer-cancelled');
+        this.$emit("on-timer-cancelled");
       }
     },
-    onPlayPause: function() {
+    onPlayPause: function () {
       this.currentState === timerState.RUNNING
         ? this.pauseCountdown()
         : this.runCountdown();
     },
-    onStop: function() {
+    onStop: function () {
       if (!(this.currentState === timerState.STOPPED)) {
         PomodoroTimer.stopCountdown(this.timerId);
         this.stop(true);
@@ -151,7 +145,7 @@ export default {
         this.pointer.transform = `rotate(360deg)`;
       }
     },
-    runCountdown: function() {
+    runCountdown: function () {
       if (this.currentState === timerState.STOPPED) {
         this.resetTime();
         this.timedProjectId = this.activeProject.id;
@@ -163,13 +157,13 @@ export default {
         this.updateComponentTime
       );
       this.run();
-      this.$emit('on-timer-started', this.timedProjectId);
+      this.$emit("on-timer-started", this.timedProjectId);
     },
-    pauseCountdown: function() {
+    pauseCountdown: function () {
       PomodoroTimer.pauseCountdown(this.timerId);
       this.pause();
     },
-    updateComponentTime: function(seconds) {
+    updateComponentTime: function (seconds) {
       let time = PomodoroTimer.remainingTime(seconds);
       this.mutableMinutes = Number(time.mm);
       this.mutableSeconds = Number(time.ss);
@@ -181,7 +175,7 @@ export default {
         this.stop(false);
       }
     },
-    resetTime: function() {
+    resetTime: function () {
       this.mutableMinutes = this.minutes;
       this.mutableSeconds = this.seconds;
     },
@@ -197,16 +191,16 @@ export default {
 }
 
 .display-remain-time {
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-weight: 100;
   font-size: 65px;
-  color: $primary-color;
+  color: var(--v-primary-base);
 }
 
 .slash {
   width: 30px;
   height: 30px;
-  color: $primary-color;
+  color: var(--v-primary-base);
   font-size: 35px;
   padding-right: 10px;
 }
@@ -228,25 +222,25 @@ export default {
   align-self: center;
   width: 25px;
   height: 25px;
-  background-color: $primary-color;
+  background-color: var(--v-primary-base);
 }
 
 .play::before {
   display: block;
-  content: '';
+  content: "";
   border-top: 15px solid transparent;
   border-bottom: 15px solid transparent;
-  border-left: 22px solid $primary-color;
+  border-left: 22px solid var(--v-primary-base);
 }
 
 .pause::after {
   display: block;
-  content: '';
+  content: "";
   width: 15px;
   height: 25px;
   background-color: transparent;
   border-radius: 1px;
-  border: 5px solid $primary-color;
+  border: 5px solid var(--v-primary-base);
   border-top: none;
   border-bottom: none;
 }
@@ -263,14 +257,14 @@ export default {
 
 .e-c-progress {
   fill: none;
-  stroke: $primary-color;
+  stroke: var(--v-primary-base);
   stroke-width: 4px;
   transition: stroke-dashoffset 0.7s;
 }
 
 .e-c-pointer {
   fill: #fff;
-  stroke: $primary-color;
+  stroke: var(--v-primary-base);
   stroke-width: 2px;
 }
 

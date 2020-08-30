@@ -61,10 +61,10 @@
 
 <script>
 export default {
-  name: 'PomoSettingsModal',
+  name: "PomoSettingsModal",
   data() {
     return {
-      pomosPerCycle: '4 intervals',
+      pomosPerCycle: "4 intervals",
       focusDurationInMinutes: 25,
       shortBreakInMinutes: 5,
       longBreakInMinutes: 30,
@@ -80,13 +80,13 @@ export default {
         shortBreakInMinutes: this.shortBreakInMinutes,
         longBreakInMinutes: this.longBreakInMinutes,
       };
-      this.$emit('on-save', pomoSettings);
+      this.$emit("on-save", pomoSettings);
     },
     cancel() {
-      this.$emit('on-cancel');
+      this.$emit("on-cancel");
     },
   },
 };
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="scss" scoped></style>
