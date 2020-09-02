@@ -1,3 +1,5 @@
+<img src="build/icon.png" alt="drawing" width="200"/>
+
 # timetrk
 
 ## About timetrk
@@ -10,6 +12,8 @@ It is continously being improved and more features are added to make it a well-f
 - Simple time tracking of projects without the Pomodoro intervals
 - Statistics on past tracking data
 - Exporting tracking data to csv
+
+![timetrk Screenshot](timetrk_screenshot.png)
 
 ## Project setup
 ```
