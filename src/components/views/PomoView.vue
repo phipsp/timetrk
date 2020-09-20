@@ -10,7 +10,7 @@
         @on-timer-cancelled="onTimerCancelled"
       />
     </v-row>
-    <v-row justify="end" style="padding-right: 55px">
+    <v-row justify="end" style="padding-right: 70px">
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import PomoTimer from "./PomoTimer";
-import PomoSettingsModal from "./PomoSettingsModal";
+import PomoTimer from "@/components/PomoTimer";
+import PomoSettingsModal from "@/components/modals/PomoSettingsModal";
 export default {
   name: "PomoView",
   components: {

@@ -19,7 +19,10 @@
             />
           </v-col>
           <v-divider inset vertical />
-          <v-col>
+          <v-col class="d-flex align-center" v-if="!projects.length" style="height: 600px">
+            <empty-project-list-view />
+          </v-col>
+          <v-col v-else>
             <v-row justify="center">
               <pomo-view
                 :activeProject="activeProject"
@@ -35,6 +38,7 @@
                 :activeProject="activeProject"
                 @update-project-name="updateProjectName"
                 @update-planned-pomos="updatePlannedPomos"
+                @delete-project="deleteProject"
                 ref="projectView"
               />
             </v-row>
@@ -46,10 +50,11 @@
 </template>
 
 <script>
-import ProjectList from "./components/ProjectList.vue";
-import ProjectView from "./components/ProjectView.vue";
-import ListHeader from "./components/ListHeader.vue";
-import PomoView from "./components/PomoView.vue";
+import ListHeader from "@/components/ListHeader.vue";
+import ProjectList from "@/components/ProjectList.vue";
+import ProjectView from "@/components/views/ProjectView.vue";
+import PomoView from "@/components/views/PomoView.vue";
+import EmptyProjectListView from "@/components/views/EmptyProjectListView.vue";
 import Store from "./store.js";
 
 const store = new Store({
@@ -64,7 +69,13 @@ const store = new Store({
 export default {
   name: "App",
 
-  components: { ProjectList, ProjectView, ListHeader, PomoView },
+  components: {
+    ProjectList,
+    ProjectView,
+    ListHeader,
+    PomoView,
+    EmptyProjectListView,
+  },
 
   data: () => ({
     projects: [],
@@ -97,6 +108,17 @@ export default {
       this.projects.push(newProject);
       this.activeProject = newProject;
       this.$refs.projectView.focusForm();
+    },
+    deleteProject(activeProject) {
+      const idx = this.projects.indexOf(activeProject);
+      if (idx > -1) {
+        this.projects.splice(idx, 1);
+      }
+      if (this.projects.length > 0) {
+        this.activeProject = this.projects[this.projects.length - 1];
+      } else {
+        this.activeProject = {};
+      }
     },
     onTimerStarted(timedProjectId) {
       this.timedProjectId = timedProjectId;
