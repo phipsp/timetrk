@@ -22,7 +22,7 @@
           <v-col class="d-flex align-center" v-if="!projects.length" style="height: 600px">
             <empty-project-list-view />
           </v-col>
-          <v-col v-if="projects.length">
+          <v-col v-else>
             <v-row justify="center">
               <pomo-view
                 :activeProject="activeProject"
