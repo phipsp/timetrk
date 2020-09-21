@@ -38,6 +38,10 @@
 <script>
 import PomoTimer from "@/components/PomoTimer";
 import PomoSettingsModal from "@/components/modals/PomoSettingsModal";
+import {
+  timerNotificationTitle,
+  timerNotificationOptions,
+} from "@/utils/constants.js";
 export default {
   name: "PomoView",
   components: {
@@ -70,6 +74,10 @@ export default {
       // 1 full cylce is done -> long break
       if (this.pomoCounter >= 4) {
         this.$emit("update-done-pomos");
+        new Notification(
+          timerNotificationTitle,
+          timerNotificationOptions.DONE_SESSION_START_LONG_BREAK
+        );
         this.cycleCounter++;
         this.pomoCounter = 0;
         this.minutes = this.longBreakInMinutes;
@@ -78,9 +86,17 @@ export default {
       } else if (this.isBreakTimer) {
         this.minutes = this.focusDurationInMinutes;
         this.isBreakTimer = false;
+        new Notification(
+          timerNotificationTitle,
+          timerNotificationOptions.DONE_BREAK_START_SESSION
+        );
         // 1 normal pomo is done -> short break
       } else {
         this.$emit("update-done-pomos");
+        new Notification(
+          timerNotificationTitle,
+          timerNotificationOptions.DONE_SESSION_START_SHORT_BREAK
+        );
         this.pomoCounter++;
         this.minutes = this.shortBreakInMinutes;
         this.isBreakTimer = true;
