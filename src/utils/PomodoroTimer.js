@@ -13,12 +13,12 @@ export const PomodoroTimer = {
     let interval = null;
 
     function countdown() {
-      let current = new Date();
-      let count = end - current;
+      const current = new Date();
+      const count = end - current;
 
-      let secs = Math.floor((count / 1000) % 60);
-      let mins = Math.floor((count / 1000 / 60) % 60);
-      let remainingSeconds = secs + mins * 60;
+      const secs = Math.floor((count / 1000) % 60);
+      const mins = Math.floor((count / 1000 / 60) % 60);
+      const remainingSeconds = secs + mins * 60;
 
       callback(seconds);
       seconds = remainingSeconds;
