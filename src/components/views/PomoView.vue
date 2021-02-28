@@ -71,35 +71,35 @@ export default {
   methods: {
     onTimerFinished() {
       this.$emit("on-timer-finished");
-      // 1 full cylce is done -> long break
-      if (this.pomoCounter >= 4) {
-        this.$emit("update-done-pomos");
-        new Notification(
-          timerNotificationTitle,
-          timerNotificationOptions.DONE_SESSION_START_LONG_BREAK
-        );
-        this.cycleCounter++;
-        this.pomoCounter = 0;
-        this.minutes = this.longBreakInMinutes;
-        this.isBreakTimer = true;
-        // 1 break is over -> focus time
-      } else if (this.isBreakTimer) {
+      if (this.isBreakTimer) {
         this.minutes = this.focusDurationInMinutes;
         this.isBreakTimer = false;
         new Notification(
           timerNotificationTitle,
           timerNotificationOptions.DONE_BREAK_START_SESSION
         );
-        // 1 normal pomo is done -> short break
+        return;
+      }
+
+      this.pomoCounter++;
+      if (this.pomoCounter >= this.pomosPerCylce) {
+        this.cycleCounter++;
+        this.pomoCounter = 0;
+        this.minutes = this.longBreakInMinutes;
+        this.isBreakTimer = true;
+        this.$emit("update-done-pomos");
+        new Notification(
+          timerNotificationTitle,
+          timerNotificationOptions.DONE_SESSION_START_LONG_BREAK
+        );
       } else {
+        this.minutes = this.shortBreakInMinutes;
+        this.isBreakTimer = true;
         this.$emit("update-done-pomos");
         new Notification(
           timerNotificationTitle,
           timerNotificationOptions.DONE_SESSION_START_SHORT_BREAK
         );
-        this.pomoCounter++;
-        this.minutes = this.shortBreakInMinutes;
-        this.isBreakTimer = true;
       }
     },
     onTimerStarted(timedProjectId) {
