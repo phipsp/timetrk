@@ -50,12 +50,8 @@ export default {
   },
   data() {
     return {
-      pomosPerCylce: 4,
-      focusDurationInMinutes: 25,
       minutes: 25,
       seconds: 0,
-      shortBreakInMinutes: 5,
-      longBreakInMinutes: 30,
       pomoCounter: 0,
       cycleCounter: 0,
       isBreakTimer: false,
@@ -80,11 +76,11 @@ export default {
         );
         this.cycleCounter++;
         this.pomoCounter = 0;
-        this.minutes = this.longBreakInMinutes;
+        this.minutes = this.$store.state.pomoSettings.longBreakInMinutes;
         this.isBreakTimer = true;
         // 1 break is over -> focus time
       } else if (this.isBreakTimer) {
-        this.minutes = this.focusDurationInMinutes;
+        this.minutes = this.$store.state.pomoSettings.focusDurationInMinutes;
         this.isBreakTimer = false;
         new Notification(
           timerNotificationTitle,
@@ -98,7 +94,7 @@ export default {
           timerNotificationOptions.DONE_SESSION_START_SHORT_BREAK
         );
         this.pomoCounter++;
-        this.minutes = this.shortBreakInMinutes;
+        this.minutes = this.$store.state.pomoSettings.shortBreakInMinutes;
         this.isBreakTimer = true;
       }
     },
@@ -106,19 +102,15 @@ export default {
       this.$emit("on-timer-started", timedProjectId);
     },
     onTimerCancelled() {
-      this.minutes = this.focusDurationInMinutes;
+      this.minutes = this.$store.state.pomoSettings.focusDurationInMinutes;
       this.seconds = 0;
       this.$emit("on-timer-cancelled");
     },
     cancel() {
       this.options = false;
     },
-    save(pomoSettings) {
-      this.pomosPerCylce = pomoSettings.pomosPerCylce;
-      this.focusDurationInMinutes = pomoSettings.focusDurationInMinutes;
-      this.minutes = pomoSettings.focusDurationInMinutes;
-      this.shortBreakInMinutes = pomoSettings.shortBreakInMinutes;
-      this.longBreakInMinutes = pomoSettings.longBreakInMinutes;
+    save() {
+      this.minutes = this.$store.state.pomoSettings.focusDurationInMinutes;
       this.options = false;
     },
   },

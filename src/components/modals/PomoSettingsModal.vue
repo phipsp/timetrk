@@ -65,22 +65,28 @@ export default {
   data() {
     return {
       pomosPerCycle: "4 intervals",
-      focusDurationInMinutes: 25,
-      shortBreakInMinutes: 5,
-      longBreakInMinutes: 30,
     };
+  },
+  computed: {
+    focusDurationInMinutes: {
+      get() { return this.$store.state.pomoSettings.focusDurationInMinutes; },
+      set(val) { this.$store.commit('setFocusDurationInMinutes', val) }
+    },
+    shortBreakInMinutes: {
+      get() { return this.$store.state.pomoSettings.shortBreakInMinutes; },
+      set(val) { this.$store.commit('setShortBreakInMinutes', val) }
+    },
+    longBreakInMinutes: {
+      get() { return this.$store.state.pomoSettings.longBreakInMinutes; },
+      set(val) { this.$store.commit('setLongBreakInMinutes', val) }
+    }
   },
   methods: {
     save() {
       // todo
       let pomos = Number(this.pomosPerCycle.slice(0, 1));
-      let pomoSettings = {
-        pomosPerCycle: pomos,
-        focusDurationInMinutes: this.focusDurationInMinutes,
-        shortBreakInMinutes: this.shortBreakInMinutes,
-        longBreakInMinutes: this.longBreakInMinutes,
-      };
-      this.$emit("on-save", pomoSettings);
+      this.$store.commit('setPomosPerCycle', pomos);
+      this.$emit("on-save");
     },
     cancel() {
       this.$emit("on-cancel");
