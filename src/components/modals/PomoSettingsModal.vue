@@ -70,22 +70,22 @@ export default {
   computed: {
     focusDurationInMinutes: {
       get() { return this.$store.state.pomoSettings.focusDurationInMinutes; },
-      set(val) { this.$store.commit('setFocusDurationInMinutes', val) }
+      set(val) { this.$store.commit('SET_FOCUS_DURATION_MINUTES', val) }
     },
     shortBreakInMinutes: {
       get() { return this.$store.state.pomoSettings.shortBreakInMinutes; },
-      set(val) { this.$store.commit('setShortBreakInMinutes', val) }
+      set(val) { this.$store.commit('SET_SHORT_BREAK_IN_MINUTES', val) }
     },
     longBreakInMinutes: {
       get() { return this.$store.state.pomoSettings.longBreakInMinutes; },
-      set(val) { this.$store.commit('setLongBreakInMinutes', val) }
+      set(val) { this.$store.commit('SET_LONG_BREAK_IN_MINUTES', val) }
     }
   },
   methods: {
     save() {
       // todo
       let pomos = Number(this.pomosPerCycle.slice(0, 1));
-      this.$store.commit('setPomosPerCycle', pomos);
+      this.$store.commit('SET_POMOS_PER_CYCLE', pomos);
       this.$emit("on-save");
     },
     cancel() {

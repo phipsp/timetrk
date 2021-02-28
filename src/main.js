@@ -15,23 +15,46 @@ const store = new Vuex.Store({
             focusDurationInMinutes: 25,
             shortBreakInMinutes: 5,
             longBreakInMinutes: 30
+        },
+        activeProject: {
+            name: '',
+            id: 1,
+            pomos: { 
+                planned: 0,
+                done: 0
+            }
         }
     },
     mutations: {
-        setPomoSettings(state, newSettings) {
+        SET_POMO_SETTINGS(state, newSettings) {
             state.pomoSettings = {...newSettings};
         },
-        setPomosPerCycle(state, pomosPerCycle) {
+        SET_POMOS_PER_CYCLE(state, pomosPerCycle) {
             state.pomoSettings.pomosPerCycle = pomosPerCycle;
         },
-        setFocusDurationInMinutes(state, focusDurationInMinutes) {
+        SET_FOCUS_DURATION_IN_MINUTES(state, focusDurationInMinutes) {
             state.pomoSettings.focusDurationInMinutes = focusDurationInMinutes;
         },
-        setShortBreakInMinutes(state, shortBreakInMinutes) {
+        SET_SHORT_BREAK_IN_MINUTES(state, shortBreakInMinutes) {
             state.pomoSettings.shortBreakInMinutes = shortBreakInMinutes;
         },
-        setLongBreakInMinutes(state, longBreakInMinutes) {
+        SET_LONG_BREAK_IN_MINUTES(state, longBreakInMinutes) {
             state.pomoSettings.longBreakInMinutes = longBreakInMinutes;
+        },
+        SET_ACTIVE_PROJECT(state, activeProject) {
+            state.activeProject = activeProject;
+        },
+        CLEAR_ACTIVE_PROJECT(state) {
+            state.activeProject = {};
+        },
+        SET_ACTIVE_PROJECT_NAME(state, name) {
+            state.activeProject.name = name;
+        },
+        SET_ACTIVE_PROJECT_POMOS(state, pomos) {
+            state.activeProject.pomos = pomos;
+        },
+        SET_ACTIVE_PROJECT_ID(state, id) {
+            state.activeProject.id = id
         }
     }
 })

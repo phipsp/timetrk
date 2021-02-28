@@ -4,7 +4,6 @@
       <PomoTimer
         :minutes="minutes"
         :seconds="seconds"
-        :activeProject="activeProject"
         @on-timer-finished="onTimerFinished"
         @on-timer-started="onTimerStarted"
         @on-timer-cancelled="onTimerCancelled"
@@ -57,12 +56,6 @@ export default {
       isBreakTimer: false,
       options: false,
     };
-  },
-  props: {
-    activeProject: {
-      type: Object,
-      default: () => {},
-    },
   },
   methods: {
     onTimerFinished() {
