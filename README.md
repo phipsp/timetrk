@@ -8,7 +8,7 @@ _timetrk_ is a time tracking tool for projects, utilizing the [Pomodoro Techniqu
 It is continously being improved and more features are added to make it a well-functioning open source tool for efficient project work and easy time tracking.
 
 ## List of planned features
-- Notification on finished intervals
+- [x] Notification on finished intervals
 - Simple time tracking of projects without the Pomodoro intervals
 - Statistics on past tracking data
 - Exporting tracking data to csv
