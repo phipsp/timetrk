@@ -5,10 +5,8 @@ export const PomodoroTimer = {
     seconds = seconds || 0;
     seconds = seconds + minutes * 60;
 
-    const immutableseconds = seconds
-
     let end = new Date()
-    end.setSeconds(end.getSeconds() + immutableseconds)
+    end.setSeconds(end.getSeconds() + seconds)
 
     let interval = null;
 
