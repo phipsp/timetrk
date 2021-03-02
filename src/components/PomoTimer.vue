@@ -167,7 +167,7 @@ export default {
       let time = PomodoroTimer.remainingTime(seconds);
       this.mutableMinutes = Number(time.mm);
       this.mutableSeconds = Number(time.ss);
-      this.timePassed += 1;
+      this.timePassed = this.timeLimit - seconds;
       this.pointer.transform = `rotate(${360 * this.timeFraction}deg)`;
       if (time.running === false) {
         this.timePassed = -1;

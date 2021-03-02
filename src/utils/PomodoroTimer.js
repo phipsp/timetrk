@@ -5,20 +5,30 @@ export const PomodoroTimer = {
     seconds = seconds || 0;
     seconds = seconds + minutes * 60;
 
+    let end = new Date()
+    end.setSeconds(end.getSeconds() + seconds)
+
     let interval = null;
 
     function countdown() {
+      const current = new Date();
+      const count = end - current;
+
+      const secs = Math.floor((count / 1000) % 60);
+      const mins = Math.floor((count / 1000 / 60) % 60);
+      const remainingSeconds = secs + mins * 60;
+
       callback(seconds);
-      if (seconds === 0) {
+      seconds = remainingSeconds;
+      if (seconds <= 0) {
         clearInterval(interval);
-      } else {
-        seconds--;
       }
     }
 
-    interval = setInterval(function() {
-      countdown();
-    }, 1000);
+    // Setting the interval to run every 100ms increases the accuracy of the passing seconds.
+    // This is because sometimes the program's 1000ms are slower or faster than the system clock's 1000ms.
+    // When this happens, the displayed time might skip a second due to the discrepancy.
+    interval = setInterval(countdown, 100);
 
     countdown();
     return interval;
