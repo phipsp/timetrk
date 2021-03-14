@@ -70,7 +70,7 @@ export default {
   computed: {
     focusDurationInMinutes: {
       get() { return this.$store.state.pomoSettings.focusDurationInMinutes; },
-      set(val) { this.$store.commit('SET_FOCUS_DURATION_MINUTES', val) }
+      set(val) { this.$store.commit('SET_FOCUS_DURATION_IN_MINUTES', val) }
     },
     shortBreakInMinutes: {
       get() { return this.$store.state.pomoSettings.shortBreakInMinutes; },
