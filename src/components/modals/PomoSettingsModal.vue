@@ -83,7 +83,6 @@ export default {
   },
   methods: {
     save() {
-      // todo
       let pomos = Number(this.pomosPerCycle.slice(0, 1));
       this.$store.commit('SET_POMOS_PER_CYCLE', pomos);
       this.$emit("on-save");
