@@ -25,7 +25,6 @@
           <v-col v-else>
             <v-row justify="center">
               <pomo-view
-                :activeProject="activeProject"
                 @update-done-pomos="updateDonePomos"
                 @on-timer-started="onTimerStarted"
                 @on-timer-finished="onTimerFinished"
@@ -35,7 +34,6 @@
             <v-divider />
             <v-row justify="center">
               <project-view
-                :activeProject="activeProject"
                 @update-project-name="updateProjectName"
                 @update-planned-pomos="updatePlannedPomos"
                 @delete-project="deleteProject"
@@ -79,19 +77,18 @@ export default {
 
   data: () => ({
     projects: [],
-    activeProject: {},
     timedProjectId: null,
   }),
   computed: {
     activeProjectIndex() {
       return this.projects.findIndex(
-        (project) => project.id == this.activeProject.id
+        (project) => project.id == this.$store.state.activeProject.id
       );
     },
   },
   methods: {
     projectSelected(project) {
-      this.activeProject = project;
+      this.$store.commit('SET_ACTIVE_PROJECT', project);
     },
     updateProjectName(newProjectName) {
       this.projects[this.activeProjectIndex].name = newProjectName;
@@ -106,7 +103,7 @@ export default {
       var newId = this.projects.length + 1;
       var newProject = { name: "", id: newId, pomos: { planned: 0, done: 0 } };
       this.projects.push(newProject);
-      this.activeProject = newProject;
+      this.$store.commit('SET_ACTIVE_PROJECT', newProject);
       this.$refs.projectView.focusForm();
     },
     deleteProject(activeProject) {
@@ -115,9 +112,9 @@ export default {
         this.projects.splice(idx, 1);
       }
       if (this.projects.length > 0) {
-        this.activeProject = this.projects[this.projects.length - 1];
+        this.$store.commit('SET_ACTIVE_PROJECT', this.projects[this.projects.length - 1]);
       } else {
-        this.activeProject = {};
+        this.$store.commit('CLEAR_ACTIVE_PROJECT');
       }
     },
     onTimerStarted(timedProjectId) {
@@ -133,7 +130,7 @@ export default {
     });
 
     this.projects = store.getProjects();
-    this.activeProject = this.projects[0];
+    this.$store.commit('SET_ACTIVE_PROJECT', this.projects[0]);
   },
 };
 </script>

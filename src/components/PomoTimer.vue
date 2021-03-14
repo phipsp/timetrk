@@ -110,11 +110,7 @@ export default {
         return value >= 0 && value <= 59;
       },
       default: 0,
-    },
-    activeProject: {
-      type: Object,
-      default: () => {},
-    },
+    }
   },
   methods: {
     run: function () {
@@ -148,7 +144,7 @@ export default {
     runCountdown: function () {
       if (this.currentState === timerState.STOPPED) {
         this.resetTime();
-        this.timedProjectId = this.activeProject.id;
+        this.timedProjectId = this.$store.state.activeProject.id;
       }
 
       this.timerId = PomodoroTimer.startCountdown(

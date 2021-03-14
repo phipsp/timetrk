@@ -2,12 +2,12 @@
   <div style="padding-top: 20px">
     <v-row justify="space-between">
       <v-text-field
-        v-model="activeProject.name"
+        v-model="name"
         :counter="20"
         :rules="nameRules"
         label="Project Name"
         required
-        @submit="updateProjectName(activeProject.name)"
+        @submit="updateProjectName(name)"
         ref="form"
       ></v-text-field>
       <v-btn class="ma-2" text icon color="white" large @click="showDeleteProject = true">
@@ -17,23 +17,23 @@
         <ProjectDeleteModal
           @cancel="cancel"
           @delete-project="deleteProject"
-          :projectName="activeProject.name"
+          :projectName="name"
         />
       </v-dialog>
     </v-row>
     <v-row style="padding-top: 20px">
       <v-col cols="6">
         <v-text-field
-          v-model="activeProject.pomos.planned"
+          v-model="pomos.planned"
           label="Planned"
           placeholder="#"
           outlined
-          @submit="updatePlannedPomos(activeProject.pomos.planned)"
+          @submit="updatePlannedPomos(pomos.planned)"
         ></v-text-field>
       </v-col>
       <v-col>
         <v-text-field
-          v-model="activeProject.pomos.done"
+          v-model="pomos.done"
           label="Done"
           placeholder="0"
           append-icon="mdi-check-circle-outline"
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import ProjectDeleteModal from "@/components/modals/ProjectDeleteModal.vue";
 export default {
   name: "ProjectView",
@@ -66,21 +67,24 @@ export default {
     };
   },
   computed: {
+    ...mapState(['activeProject']),
+    name: {
+      get() { return this.activeProject.name; },
+      set(val) { this.$store.commit('SET_ACTIVE_PROJECT_NAME', val); }
+    },
+    pomos: {
+      get() { return this.activeProject.pomos; },
+      set(val) { this.$store.commit('SET_ACTIVE_PROJECT_POMOS', val); }
+    },
     progress() {
-      if (this.activeProject.pomos.planned > this.activeProject.pomos.done) {
+      if (this.pomos.planned > this.pomos.done) {
         return (
-          (this.activeProject.pomos.done / this.activeProject.pomos.planned) *
+          (this.pomos.done / this.pomos.planned) *
           100
         ).toFixed(3);
       } else {
         return 100;
       }
-    },
-  },
-  props: {
-    activeProject: {
-      type: Object,
-      default: () => {},
     },
   },
   methods: {
